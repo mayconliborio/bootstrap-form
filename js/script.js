@@ -8,6 +8,11 @@ const USER_STATUS = {
     inactive: 3
 }
 
+const ALERT_TYPES = {
+    success: 'success',
+    danger: 'danger'
+}
+
 const userBaseUrl = 'https://frontend-test.frenet.dev/v1/user/'
 const quoteUrl = 'https://frontend-test.frenet.dev/v1/quote/'
 
@@ -43,7 +48,7 @@ function showUserActionPage(action) {
             break;
         }
         default : {
-            alert('Página não encontrada!')
+            showAlert(ALERT_TYPES.danger, 'Página não encontrada!')
             showSearchPage();
             return
         }
@@ -148,6 +153,18 @@ function showShippingOptions() {
     shippingTable.style.display = "block";
 }
 
+function showAlert(type, message) {
+    let alert = document.getElementById('alert')
+
+    alert.classList.add('alert-' + type)
+    alert.textContent = message
+    alert.style.display = "block";
+    setTimeout(() => {
+        alert.style.display = "none";
+    }, 3000);
+
+}
+
 function getUserData() {
     const form = document.getElementById('userActionForm')
 
@@ -215,11 +232,11 @@ async function createUser() {
     await fetch(userBaseUrl, init)
         .then(res => res.json())
         .then((data) => {
-            alert("Usuario criado: " + data.username)
+            showAlert(ALERT_TYPES.success, `Usuário: ${data.username} criado com sucesso!`)
             showSearchPage()
         })
         .catch(e => {
-            alert("Erro ao criar usuário!")
+            showAlert(ALERT_TYPES.danger, `Erro ao criar usuário: ${newUser.username}`)
             console.error(e)
         })
 }
@@ -236,7 +253,7 @@ async function findUser() {
                 activeUser = data
                 showUserCard();
             } else {
-                alert("Usuario não encontrado!")
+                showAlert(ALERT_TYPES.danger, "Usuario não encontrado!")
             }
         })
         .catch(() => {
@@ -258,7 +275,7 @@ async function updateUser() {
     await fetch(userBaseUrl + activeUser.username, init)
         .then(res => res.json())
         .then((data) => {
-            alert("usuario atualizado: " + data.username)
+            showAlert(ALERT_TYPES.success, "Usuário atualizado: " + data.username)
             showSearchPage()
         })
 }
@@ -269,7 +286,7 @@ async function deleteUser() {
     await fetch(userBaseUrl + activeUser.username, init)
         .then(res => res.json())
         .then(data => {
-            alert("usuario deletado: " + data.username)
+            showAlert(ALERT_TYPES.success, "Usuário deletado: " + data.username)
         })
         .catch(e => e)
         .finally(() => {
