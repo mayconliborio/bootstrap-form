@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title></title>
+</head>
+<body>
+
+<div id="userActionPage" class="container w-50">
+    <h2 id="userActionTitle" class="mb-4"></h2>
+
+    <form id="userActionForm" class="row row-cols-1" method="post" onsubmit="submitUserForm()">
+        <div class="mb-3">
+            <label for="username" class="form-label"> Usuario </label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-text">&#64;</span>
+                <input type="text" id="username" required autocomplete="username" class="form-control"
+                       placeholder="Username"
+                       aria-label="Username">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label"> Senha </label>
+            <input type="password" required autocomplete="new-password" class="form-control form-control-sm"
+                   id="password">
+        </div>
+        <div class="mb-3">
+            <label for="firstName" class="form-label"> Nome </label>
+            <input type="text" required autocomplete="given-name" class="form-control form-control-sm"
+                   id="firstName">
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label"> Sobrenome </label>
+            <input type="text" required autocomplete="family-name" class="form-control form-control-sm"
+                   id="lastName">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label"> Email </label>
+            <input type="email" required autocomplete="email" class="form-control form-control-sm" id="email"
+                   placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label"> Telefone </label>
+            <input type="text" required autocomplete="tel" class="form-control form-control-sm" id="phone">
+        </div>
+
+
+        <div class="mb-3 col-12">
+            <label class="form-label pe-2"> Status do usuário:</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="userStatus" id="userActive" checked>
+                <label class="form-check-label" for="userActive">
+                    Ativo
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="userStatus" id="userInactive">
+                <label class="form-check-label" for="userInactive">
+                    Inativo
+                </label>
+            </div>
+        </div>
+
+        <div class="mb-3 col-12 d-flex justify-content-end">
+            <button class="btn btn-secondary w-25 me-2" type="submit" onclick="showSearchPage()">Ir para busca</button>
+
+            <button id="userSubmitBtn" class="btn w-25 btn-primary" type="submit"></button>
+        </div>
+    </form>
+</div>
+
+<div id="userShowPage" class="container w-50">
+    <button class="btn btn-primary mb-4 mt-2" onclick="showUserActionPage(USER_ACTIONS.create)">Novo usuário</button>
+
+
+    <button class="btn btn-primary mb-4 mt-2" onclick="showShippingQuotePage()">Calculadora de fretes</button>
+    <h2 class="mb-3">Encontrar usuário</h2>
+
+    <form id="searchForm" class="d-flex flex-column mb-3" onsubmit="findUser()">
+        <label for="username" class="form-label"> Usuario </label>
+        <div class="input-group col-8 w-100 input-group-sm">
+            <span class="input-group-text">&#64;</span>
+            <input type="text" id="usernameSearch" required autocomplete="username" class="form-control"
+                   placeholder="Username"
+                   aria-label="Username">
+            <button class="btn btn-primary ms-1 col-3" type="submit">Buscar</button>
+        </div>
+    </form>
+
+
+    <div id="userCard" class="card w-100 mb-5">
+        <div class="card-body row g-0">
+            <div class="col-1">
+                <h6 class="card-title">ID</h6>
+                <span id="cardId">1</span>
+            </div>
+            <div class="col-5">
+                <h6 class="card-title">Nome</h6>
+                <span id="cardFullName">Maycon Douglas Sangiorgio Liborio</span>
+            </div>
+            <div class="col-2">
+                <h6 class="card-title">Status</h6>
+                <span id="cardUserStatus">Ativo</span>
+            </div>
+            <div class="col-2">
+                <h6 class="card-title">Usuario</h6>
+                <span id="cardUsername">maycas</span>
+            </div>
+            <div class="col-1 d-flex justify-content-center align-items-end">
+                <span class="btn pb-0 text-primary" onclick="showUserActionPage(USER_ACTIONS.edit)">Editar</span>
+            </div>
+            <div class="col-1 d-flex justify-content-center align-items-end">
+                <span class="btn pb-0 text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalTitle">Exclusão de usuário</h1>
+                    <button type="button" class="btn-close" id="closeDeleteModal" data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Você realmente deseja excluir esse usuário?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteUser()">Deletar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="shippingCalculatorPage" class="container w-50">
+    <h2 class="mb-4">Calculadora de fretes</h2>
+    <form id="shippingForm" class="row row-cols-4" method="get" onsubmit="getQuoteShippings()">
+        <div class="mb-3 col-6">
+            <label for="zipCodeSource" class="form-label"> CEP Origem </label>
+            <input type="text" required autocomplete="postal-code" class="form-control form-control-sm"
+                   id="zipCodeSource">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="zipCodeDestination" class="form-label"> CEP Destino </label>
+            <input type="text" required autocomplete="postal-code" class="form-control form-control-sm"
+                   id="zipCodeDestination">
+        </div>
+
+        <div class="mb-3">
+            <label for="objectHeigth" class="form-label"> Altura </label>
+            <input type="number" required autocomplete="postal-code" class="form-control form-control-sm"
+                   id="objectHeigth">
+        </div>
+        <div class="mb-3">
+            <label for="objectWidth" class="form-label"> Largura </label>
+            <input type="number" required autocomplete="postal-code" class="form-control form-control-sm"
+                   id="objectWidth">
+        </div>
+        <div class="mb-3">
+            <label for="objectLength" class="form-label"> Comprimento </label>
+            <input type="number" required autocomplete="postal-code" class="form-control form-control-sm"
+                   id="objectLength">
+        </div>
+        <div class="mb-3">
+            <label for="objectWeight" class="form-label"> Peso </label>
+            <input type="number" required autocomplete="postal-code" class="form-control form-control-sm"
+                   id="objectWeight">
+        </div>
+
+        <div class="mb-3 col-12 d-flex justify-content-end">
+            <button class="btn btn-secondary w-25 me-2" type="submit" onclick="showSearchPage()">Ir para busca</button>
+
+            <button class="btn w-25 btn-primary" type="submit">Calcular</button>
+        </div>
+    </form>
+
+
+    <table class="table w-100" id="shippingTable">
+        <thead class="w-100">
+        <tr class="w-100">
+            <th scope="col" class="w-40">
+                Transportadora
+            </th>
+            <th scope="col" class="w-20">
+                Custo de envio
+            </th>
+            <th scope="col" class="w-20">
+                Tempo de Entrega
+            </th>
+            <th scope="col" class="w-20">
+                Tipo
+            </th>
+        </tr>
+        </thead>
+        <tbody class="w-100" id="shippingTableBody">
+        </tbody>
+    </table>
+
+</div>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

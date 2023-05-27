@@ -1,0 +1,26 @@
+#userActionPage {
+    display: none;
+}
+
+#userShowPage {
+    display: block;
+}
+
+#userCard {
+    display: none;
+}
+
+#shippingCalculatorPage {
+    display: none;
+}
+#shippingTable {
+    display: none;
+}
+
+.w-40 {
+    width: 40%;
+}
+
+.w-20 {
+    width: 20%;
+}
