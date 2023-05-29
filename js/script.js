@@ -156,9 +156,13 @@ function showShippingOptions() {
 function showAlert(type, message) {
     let alert = document.getElementById('alert')
 
+    alert.classList.remove('alert-success');
+    alert.classList.remove('alert-danger');
+
     alert.classList.add('alert-' + type)
     alert.textContent = message
     alert.style.display = "block";
+
     setTimeout(() => {
         alert.style.display = "none";
     }, 3000);
